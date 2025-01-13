@@ -1,3 +1,4 @@
+```json
 {
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.
@@ -23,7 +24,8 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\..\\..\\..\\Desktop\\BetVisa\\main.js"
+            "program": "${workspaceFolder}/../../../Desktop/BetVisa/main.js"
         }
     ]
 }
+```
