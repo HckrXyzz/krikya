@@ -106,4 +106,4 @@
 /*!***************************!*\
   !*** multi ./src/main.js ***!
   \***************************/
-/*! no static exports found */function(_,e,r){_.exports=r(/*! ./src/main.js */"./src/main.js")}}]);
+/*! no  exports found */function(_,e,r){_.exports=r(/*! ./src/main.js */"./src/main.js")}}]);
