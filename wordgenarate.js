@@ -41,14 +41,8 @@
 
             // Remove duplicates more efficiently
             words = removeDuplicates(words);
-
-            // Sort alphabetically (case insensitive)
             words.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
-
-            // Display word list with stats
             displayWordList(words);
-
-            // Filter for member codes (more flexible pattern)
             const memberCodes = words.filter(word =>
                 /^[a-zA-Z]+[\d_]+$/.test(word) ||  // user123 or user_123
                 /^[\d_]+[a-zA-Z]+$/.test(word) || // 123user or _123user
@@ -59,9 +53,6 @@
             // Display member codes with stats
             if (memberCodes.length > 0) {
                 memberStats.textContent = "";
-                // userList.innerHTML = memberCodes.map(code =>
-                //   `<span class="member-code">${code}</span>`
-                //  ).join(' ');
             } else {
                 memberStats.textContent = "";
                 userList.textContent = "No valid member codes found.";
@@ -97,7 +88,7 @@
             const wordList = document.createElement('div');
             wordList.style.columnCount = "8";
             wordList.style.marginTop = "10px";
-            wirdList.className = "text-center";
+            wordList.className = "text-center";
 
             words.forEach(word => {
                 const wordElement = document.createElement('div');
