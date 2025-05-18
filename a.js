@@ -8,7 +8,7 @@ function processBalanceTable(tableBodyId, lowBalanceThreshold) {
   const rows = Array.from(tableBody.querySelectorAll('tr'));
 
   function getBalance(row) {
-    const balanceCell = row.querySelector('td:nth-child(BALLANCE)');
+    const balanceCell = row.querySelector('td:nth-child(BALANCE)');
     if (balanceCell) {
       const balanceText = balanceCell.textContent.trim();
       // Remove any non-numeric characters except the decimal point
@@ -20,7 +20,7 @@ function processBalanceTable(tableBodyId, lowBalanceThreshold) {
 
   // Function to update the balance format
   function updateBalanceFormat(row) {
-    const balanceCell = row.querySelector('td:nth-child(YOUR_BALANCE_COLUMN_INDEX)');
+    const balanceCell = row.querySelector('td:nth-child(BALANCE)');
     if (balanceCell) {
       const balanceValue = getBalance(row);
       if (!isNaN(balanceValue)) {
