@@ -93,6 +93,7 @@
             words.forEach(word => {
                 const wordElement = document.createElement('div');
                 wordElement.className = "word-item";
+                 wordElement.className = "col";
                 wordElement.textContent = word;
                 wordList.appendChild(wordElement);
                 document.getElementById('memberStats').innerHTML = "";
