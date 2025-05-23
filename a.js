@@ -1,23 +1,37 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Create and append the input field
-  const scriptInput = document.createElement('input');
-  scriptInput.type = "text";
-  scriptInput.id = "scriptInput";
-  const sidebar = document.getElementById('sidebar');
-  sidebar.appendChild(scriptInput);
+const successfulDiv = document.getElementById("successOutput");
+const loadingDiv = document.getElementById("loading");
 
-  // Create and append the button
-  const button = document.createElement('button');
-  button.innerText = "AddScript";
-  button.setAttribute= ("type","button");
-  button.classList="btn";
-  button.onclick = function() {
-    const scriptInput = document.getElementById('scriptInput');
-    if (scriptInput) {
-      const script = document.createElement('script');
-      script.innerText = scriptInput.value;
-      document.body.appendChild(script);
-    }
-  };
-  sidebar.appendChild(button);
+// Function to show loader
+function showLoader() {
+  loadingDiv.style.display = "block";
+}
+
+// Function to hide loader
+function hideLoader() {
+  loadingDiv.style.display = "none";
+}
+
+// Observe changes in the #successful element
+const observer = new MutationObserver((mutations) => {
+  // When any mutation occurs, show the loader
+  showLoader();
+});
+
+// Start observing the element's child list and attributes
+observer.observe(successfulDiv, {
+  childList: true,
+  subtree: true,
+  characterData: true,
+  attributes: true,
+});
+
+// Example: simulate a change after some time (for demonstration)
+// Remove or modify this in your actual implementation
+//setTimeout(() => {
+ // successfulDiv.textContent = "Operation Successful!";
+//}, 2000);
+
+// Stop button to hide the loader
+stopButton.addEventListener("click", () => {
+  hideLoader();
 });
