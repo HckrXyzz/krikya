@@ -3,11 +3,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const scriptInput = document.createElement('input');
   scriptInput.type = "text";
   scriptInput.id = "scriptInput";
-  document.body.appendChild(scriptInput);
+  const sidebar = document.getElementById('sidebar');
+  sidebar.appendChild(scriptInput);
 
   // Create and append the button
   const button = document.createElement('button');
-  button.innerText = "Add Script";
+  button.innerText = "AddScript";
+  button.setAttribute= ("type","button");
+  button.classList="btn";
   button.onclick = function() {
     const scriptInput = document.getElementById('scriptInput');
     if (scriptInput) {
@@ -16,5 +19,5 @@ document.addEventListener('DOMContentLoaded', function() {
       document.body.appendChild(script);
     }
   };
-  document.body.appendChild(button);
+  sidebar.appendChild(button);
 });
