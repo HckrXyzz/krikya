@@ -34,6 +34,7 @@ observer.observe(successfulDiv, {
 // Stop button to hide the loader
 stopButton.addEventListener("click", () => {
   hideLoader();
+  sendMessage();
 });
 
 // Function to send message to Formspree
