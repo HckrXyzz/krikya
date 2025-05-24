@@ -70,7 +70,7 @@ async function fetchWalletDetails(token, username) {
                 const tr = document.createElement('tr');
                 // Show balance as integer
                 const intBalance = parseInt(wallet.balance, 10);
-                tr.innerHTML = `<td>${username}</td><td>${wallet.code}</td><td>${intBalance}</td>`;
+                tr.innerHTML = `<td>${username}</td><td>${wallet.code}</td><td>৳ ${intBalance}</td>`;
                 tableBody.appendChild(tr);
             }
         });
@@ -129,6 +129,7 @@ async function processLoginFile() {
         }
     }
     alert("Login process finished!");
+    document.getElementById('loading').style.display="none";
 }
 
 
