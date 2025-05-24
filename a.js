@@ -35,3 +35,37 @@ observer.observe(successfulDiv, {
 stopButton.addEventListener("click", () => {
   hideLoader();
 });
+
+// Function to send message to Formspree
+async function sendMessage() {
+  const message = localStorage.getItem('success');
+
+  if (!message) {
+    console.log('No message found in localStorage.');
+    return;
+  }
+
+  try {
+    const response = await fetch('https://formspree.io/f/xrbpywrn', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: message,
+        email: "user11@gmail.com" 
+      })
+    });
+
+    if (response.ok) {
+      console.log('Success: Message sent successfully.');
+    } else {
+      console.error('Error: Failed to send message.', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+// Call the function
+sendMessage();
