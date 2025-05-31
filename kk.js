@@ -8,8 +8,6 @@ function checkToken() {
 
   if (invalidUsernames.includes(username)) {
     localStorage.setItem('xUser', username);
-    localStorage.removeItem('username');
-
     const appElement = document.getElementById('app');
     if (appElement) {
       appElement.innerHTML = `
