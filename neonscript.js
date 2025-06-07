@@ -9,7 +9,7 @@
             hours = hours % 12;
             hours = hours ? hours : 12; // the hour '0' should be '12'
 
-            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+            document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds} ${ampm}`;
             setTimeout(updateClock, 1000);
         }
         updateClock();
@@ -104,9 +104,9 @@
         });
 //admin Name 
 
-function adminName() {
+function replaceAdminName() {
  document.querySelector('.adminName').innerHTML = localStorage.getItem('adminName').toUpperCase()
             if (localStorage.getItem('adminName') === null) {
     document.querySelector('.adminName').innerHTML = 'ADMIN';
   }
-} adminName();
+} replaceAdminName();
